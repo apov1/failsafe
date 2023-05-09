@@ -1,0 +1,12 @@
+{
+    "defaultAction": "ignore",
+    "rules": [
+        {
+            "name": "Test Rule",
+            "priority": 0,
+            "action": "block",
+            "operationType": "deviceAdd",
+            "conditions": {}
+        }
+    ]
+}

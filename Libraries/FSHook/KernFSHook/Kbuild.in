@@ -1,0 +1,4 @@
+obj-m += kern_fshook.o
+kern_fshook-y := @MODULE_STRING_SOURCES@ 
+
+ccflags-y = -I$(PWD) -I$(PWD)/..

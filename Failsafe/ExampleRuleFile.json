@@ -1,0 +1,42 @@
+{
+    "defaultAction": "ignore",
+    "DLPRules": [
+        {
+            "name": "Block test pdf transfer to cloud",
+            "priority": 0,
+            "operationType": "fileTransfer",
+            "action": "block",
+            "conditions": {
+                "pathRegex": "/home/.*/test.pdf",
+                "destinationType": "dropbox"
+            }
+        },
+        {
+            "name": "Log pdf Upload",
+            "priority": 0,
+            "operationType": "upload",
+            "action": "log",
+            "conditions": {
+                "fileExtension": ".pdf"
+            }
+        },
+        {
+            "name": "Block transfer to USB",
+            "priority": 0,
+            "operationType": "fileTransfer",
+            "action": "block",
+            "conditions": {
+                "destinationType": "usb"
+            }
+        }
+    ],
+    "DCRules": [
+        {
+            "name": "Block all USB Devices",
+            "priority": 0,
+            "action": "log",
+            "operationType": "deviceAdd",
+            "conditions": {}
+        }
+    ]
+}

@@ -1,0 +1,210 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "DLP Policy",
+    "description": "DLP Policy specification",
+    "type": "object",
+    "properties": {
+        "defaultAction": {
+            "description": "Default action to perform when no rule matches",
+            "$ref": "#/$defs/action"
+        },
+        "DLPRules": {
+            "description": "List of DLP module rules",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/DLPRule"
+            }
+        },
+        "DCRules": {
+            "description": "List of DC module rules",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/DCRule"
+            }
+        }
+    },
+    "required": [
+        "defaultAction",
+        "DLPRules",
+        "DCRules"
+    ],
+    "$defs": {
+        "action": {
+            "enum": [
+                "ignore",
+                "log",
+                "block"
+            ]
+        },
+        "DLPRule": {
+            "properties": {
+                "name": {
+                    "description": "Name of rule for identification",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Priority of rule defining order of evaluation",
+                    "type": "integer"
+                },
+                "operationType": {
+                    "description": "Operation type to which rule applies.",
+                    "enum": [
+                        "fileTransfer",
+                        "upload",
+                        "instantMessaging",
+                        "delete"
+                    ]
+                },
+                "action": {
+                    "description": "Action to perform when rule matches",
+                    "$ref": "#/$defs/action"
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "operationType": {
+                            "enum": [
+                                "upload",
+                                "instantMessaging",
+                                "delete"
+                            ]
+                        },
+                        "conditions": {
+                            "$ref": "#/$defs/BaseDLPConditions"
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "operationType": {
+                            "enum": [
+                                "fileTransfer"
+                            ]
+                        },
+                        "conditions": {
+                            "$ref": "#/$defs/BaseDLPConditions"
+                        },
+                        "conditions": {
+                            "$ref": "#/$defs/FileTransferDLPConditions"
+                        }
+                    }
+                }
+            ],
+            "required": [
+                "name",
+                "priority",
+                "operationType",
+                "action",
+                "conditions"
+            ]
+        },
+        "DCConditions": {
+            "properties": {
+                "vendorID": {
+                    "type": "integer"
+                },
+                "productID": {
+                    "type": "integer"
+                },
+                "deviceClass": {
+                    "type": "integer"
+                },
+                "deviceSubclass": {
+                    "type": "integer"
+                },
+                "deviceProtocol": {
+                    "type": "integer"
+                },
+                "serial": {
+                    "type": "string"
+                }
+            }
+        },
+        "BaseDLPConditions": {
+            "properties": {
+                "fileExtension": {
+                    "type": "string"
+                },
+                "pathPrefix": {
+                    "type": "string"
+                },
+                "pathRegex": {
+                    "type": "string"
+                }
+            }
+        },
+        "FileTransferDLPConditions": {
+            "properties": {
+                "sourceType": {
+                    "enum": [
+                        "local",
+                        "usb",
+                        "networkDrive",
+                        "dropbox"
+                    ]
+                },
+                "destinationType": {
+                    "enum": [
+                        "local",
+                        "usb",
+                        "networkDrive",
+                        "dropbox"
+                    ]
+                }
+            }
+        },
+        "DCRule": {
+            "properties": {
+                "name": {
+                    "description": "Name of rule for identification",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Priority of rule defining order of evaluation",
+                    "type": "integer"
+                },
+                "operationType": {
+                    "description": "Operation type to which rule applies.",
+                    "enum": [
+                        "deviceAdd",
+                        "deviceRemove"
+                    ]
+                },
+                "action": {
+                    "description": "Action to perform when rule matches",
+                    "$ref": "#/$defs/action"
+                },
+                "conditions": {
+                    "properties": {
+                        "VendorID": {
+                            "type": "integer"
+                        },
+                        "ProductID": {
+                            "type": "integer"
+                        },
+                        "DeviceClass": {
+                            "type": "integer"
+                        },
+                        "DeviceSubclass": {
+                            "type": "integer"
+                        },
+                        "DeviceProtocol": {
+                            "type": "integer"
+                        },
+                        "Serial": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "priority",
+                "operationType",
+                "action",
+                "conditions"
+            ]
+        }
+    }
+}
