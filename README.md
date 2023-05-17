@@ -2,7 +2,9 @@
 Prototype of an endpoint DLP agent for Linux.
 
 ## License
-This project is licensed under the terms of the MIT license, with the exception of `KernFSHook` kernel module, which is licensed under the terms of GPL-3.0 license.
+This project is licensed under the terms of the MIT license, with the exception of:
+- `KernFSHook` kernel module, which is licensed under the terms of GPL-3.0 license
+- Third-party libraries, which are licensed under their respective licenses
 
 ## Disclaimer
 **RUN WITH CAUTION AND ONLY IN VIRTUAL MACHINE ENVIROMENT.**
